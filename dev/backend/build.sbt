@@ -1,13 +1,13 @@
 lazy val root = (project in file("."))
   .enablePlugins(PlayJava, PlayEbean)
   .settings(
-    name := "play-java-ebean-example",
+    name := "Ferchinator3000",
     version := "1.0.0-SNAPSHOT",
     scalaVersion := "2.13.4",
     libraryDependencies ++= Seq(
       guice,
       jdbc,
-      "mysql" % "mysql-connector-java" % "5.1.18",
+      "mysql" % "mysql-connector-java" % "5.1.47",
       "com.h2database" % "h2" % "1.4.199",
       "org.awaitility" % "awaitility" % "3.1.6" % Test,
       "org.assertj" % "assertj-core" % "3.12.2" % Test,
