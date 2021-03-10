@@ -1,4 +1,4 @@
-# play-java-ebean-example
+# FERCHINATOR3000
 
 This is an example Play application that uses Java, and communicates with an in memory database using EBean.
 
