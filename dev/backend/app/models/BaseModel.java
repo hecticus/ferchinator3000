@@ -8,5 +8,13 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 public class BaseModel extends Model {
    @Id
-   public Long id;
+   private Integer id;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 }

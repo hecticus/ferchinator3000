@@ -8,6 +8,8 @@ lazy val root = (project in file("."))
       guice,
       jdbc,
       "mysql" % "mysql-connector-java" % "5.1.47",
+      "com.google.code.gson" % "gson" % "2.8.5",
+      "com.fasterxml.jackson.core" % "jackson-core" % "2.12.1",
       "com.h2database" % "h2" % "1.4.199",
       "org.awaitility" % "awaitility" % "3.1.6" % Test,
       "org.assertj" % "assertj-core" % "3.12.2" % Test,
