@@ -78,15 +78,8 @@ create table promocion (
   activa                        integer not null,
   operadora_id                  varchar(255),
   business_id                   varchar(255),
+  premiacion                    varchar(255),
   constraint pk_promocion primary key (id)
-);
-
-create table resultado (
-  id                            integer auto_increment not null,
-  promo_id                      integer not null,
-  fecha                         varchar(255),
-  resultado                     varchar(255),
-  constraint pk_resultado primary key (id)
 );
 
 
@@ -97,6 +90,4 @@ drop table if exists client;
 drop table if exists premio;
 
 drop table if exists promocion;
-
-drop table if exists resultado;
 

@@ -1,0 +1,25 @@
+<button class="btn btn-primary" (click)="generate()">Generar</button>
+<button class="btn btn-outline-primary" (click)="guardar()">Guardar</button>
+
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">CALCULADOR FERCHINATOR 3000 &copy;</h1>
+    <p class="lead">Generando felices ganadores desde 1987.</p>
+
+</div>
+
+<div class="row row-cols-1 row-cols-md-3 mb-3 text-center"  *ngIf="promo">
+    <div class="col" *ngFor="let item of promo">
+        <div class="card mb-4 shadow-sm">
+            <div class="card-header">
+                <h4 class="my-0 fw-normal">{{item.premio.nombre }}</h4>
+            </div>
+            <div class="card-body">
+                <h1 class="card-title pricing-card-title">
+                    {{item.seleccionados[0].msisdn }}
+
+                </h1>
+            </div>
+        </div>
+    </div>
+
+</div>

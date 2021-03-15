@@ -1,4 +1,4 @@
-package applicationservices.premiacionesservice;
+package applicationservices.premiacionesservice.dto;
 
 import models.Client;
 import models.Premio;

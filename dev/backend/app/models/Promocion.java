@@ -17,6 +17,8 @@ public class Promocion extends BaseModel {
     private String operadoraId;
     @Column()
     private String businessID;
+    @Column()
+    private String premiacion;
 
     public String getNombre() {
         return nombre;
@@ -64,5 +66,13 @@ public class Promocion extends BaseModel {
 
     public void setBusinessID(String businessID) {
         this.businessID = businessID;
+    }
+
+    public String getPremiacion() {
+        return premiacion;
+    }
+
+    public void setPremiacion(String premiacion) {
+        this.premiacion = premiacion;
     }
 }

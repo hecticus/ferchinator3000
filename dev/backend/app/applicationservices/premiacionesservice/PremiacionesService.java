@@ -1,16 +1,16 @@
 package applicationservices.premiacionesservice;
 
+import applicationservices.premiacionesservice.dto.PremioResultadoDto;
+import applicationservices.premiacionesservice.dto.Resultado;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.gson.Gson;
 import interfaceadapters.premiorepositorydao.ClienteRepositoryDao;
 import interfaceadapters.premiorepositorydao.PremioRepositoryDao;
 import interfaceadapters.premiorepositorydao.PromoRepositoryDao;
-import interfaceadapters.premiorepositorydao.ResultadoRepositoryDao;
 import models.Client;
 import models.Premio;
-import models.Resultado;
+import models.Promocion;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -26,15 +26,13 @@ public class PremiacionesService {
     private ClienteRepositoryDao clienteRepositoryDao;
     private PremioRepositoryDao premioRepositoryDao;
     private PromoRepositoryDao promoRepositoryDao;
-    private ResultadoRepositoryDao resultadoRepositoryDao;
     private Gson gson;
 
     @Inject
-    public PremiacionesService(ClienteRepositoryDao clienteRepositoryDao, PremioRepositoryDao premioRepositoryDao, PromoRepositoryDao promoRepositoryDao, ResultadoRepositoryDao resultadoRepositoryDao) {
+    public PremiacionesService(ClienteRepositoryDao clienteRepositoryDao, PremioRepositoryDao premioRepositoryDao, PromoRepositoryDao promoRepositoryDao ) {
         this.clienteRepositoryDao = clienteRepositoryDao;
         this.premioRepositoryDao = premioRepositoryDao;
         this.promoRepositoryDao = promoRepositoryDao;
-        this.resultadoRepositoryDao = resultadoRepositoryDao;
         gson = new Gson();
     }
 
@@ -70,22 +68,26 @@ public class PremiacionesService {
         }
 
         Resultado resultado = new Resultado();
-        resultado.setPromoId(promocion);
+        resultado.promoId = promocion;
 
         DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHMMSS");
         Date date = new Date();
-        resultado.setFecha(dateFormat.format(date));
-        ResultadoEntity res = new ResultadoEntity(resultado);
+        resultado.fecha = dateFormat.format(date);
         ObjectMapper mapper = new ObjectMapper();
         JsonNode tree = mapper.valueToTree(seleccionados);
-        resultado.setResultado(tree.toString());
-        resultado.insert();
+        resultado.resultado = tree.toString();
         return resultado;
     }
 
-    public Resultado getResultadoByPromoId(int promoId){
-        Resultado res = resultadoRepositoryDao.GetPremioListByPromoId(promoId);
-        return  res;
+    public Promocion getResultadoByPromoId(int promoId){
+        return promoRepositoryDao.findById(promoId);
+    }
+
+    public Promocion crearPremiacionEnPromo(int promoId, String resultado){
+        Promocion res = promoRepositoryDao.findById(promoId);
+        res.setPremiacion(resultado);
+        res.update();
+        return res;
     }
     
     private boolean clientAlreadySelected(List<PremioResultadoDto> seleccionados, Client actual){

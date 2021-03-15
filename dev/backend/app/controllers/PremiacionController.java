@@ -1,14 +1,16 @@
 package controllers;
 
 import applicationservices.premiacionesservice.PremiacionesService;
+import applicationservices.premiacionesservice.dto.Resultado;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
-import models.Resultado;
+import models.Promocion;
 import play.mvc.Controller;
+import play.mvc.Http;
 import play.mvc.Result;
 
 import javax.inject.Inject;
+import java.util.Map;
+
 
 public class PremiacionController  extends Controller {
 
@@ -17,15 +19,17 @@ public class PremiacionController  extends Controller {
 
     public Result index(int promocion) {
         Resultado res = premiacionesService.CalcularResultado(promocion);
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode tree = mapper.valueToTree(res);
-        return ok(res.getResultado()).as("application/json");
+        return ok(res.resultado).as("application/json");
     }
 
     public Result get(int promocion) {
-        Resultado res = premiacionesService.getResultadoByPromoId(promocion);
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode tree = mapper.valueToTree(res);
-        return ok(res.getResultado()).as("application/json");
+        Promocion res = premiacionesService.getResultadoByPromoId(promocion);
+        return ok(res.getPremiacion()).as("application/json");
+    }
+
+    public Result update(Http.Request request, int promocion) {
+        String aux = request.body().asJson().toString();
+        Promocion promo = premiacionesService.crearPremiacionEnPromo(promocion, aux);
+        return ok();
     }
 }
