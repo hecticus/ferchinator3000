@@ -11,7 +11,10 @@ export class LoginService {
     public login(login: Login): any {
         if (login.user === 'admin' && login.password === 'ferchinator2021') {
             this.storageGateway.put('user', JSON.stringify(login));
+            return true;
         }
+
+        return false;
     }
 
     public isLogged(): boolean {

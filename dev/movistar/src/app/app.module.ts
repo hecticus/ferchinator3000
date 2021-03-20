@@ -16,7 +16,7 @@ import { FormsModule } from '@angular/forms';
 
 @NgModule({
     declarations: [AppComponent, ResultadoComponent, CalcularComponent, LoginComponent],
-    imports: [ BrowserModule, AppRoutingModule, HttpClientModule, RouterModule],
+    imports: [FormsModule, BrowserModule, AppRoutingModule, HttpClientModule, RouterModule],
     providers: [
         {
             provide: PromoGateway,
