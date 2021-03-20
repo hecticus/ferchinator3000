@@ -7,10 +7,11 @@ import { PromoService } from 'src/services/promocion/promo.service';
 @Component({
     selector: 'app-calcular',
     templateUrl: './calcular.component.html',
-    styleUrls: ['./calcular.component.sass'],
+    styleUrls: ['./calcular.component.scss'],
 })
 export class CalcularComponent implements OnInit {
     public promo: Resultado[] = [];
+    public cardinales = ['primer' , 'segundo', 'tercer', 'cuarto', 'quinto', 'sexto', 'septimo', 'octavo'];
 
     constructor(private promoservice: PromoService) {}
 
