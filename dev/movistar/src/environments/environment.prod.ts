@@ -1,4 +1,4 @@
-export const SERVER_URL = 'https://promo.maxgame.club';
+export const SERVER_URL = 'https://backend.maxgame.club';
 
 export const environment = {
   production: true,
