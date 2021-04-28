@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Resultado } from 'src/domain/resultado';
 import { environment } from 'src/environments/environment';
+import { ClientService } from 'src/services/client/client.service';
 import { PromoService } from 'src/services/promocion/promo.service';
 
 @Component({
@@ -13,23 +14,45 @@ export class CalcularComponent implements OnInit {
     public promo: Resultado[] = [];
     public cardinales = ['primer' , 'segundo', 'tercer', 'cuarto', 'quinto', 'sexto', 'septimo', 'octavo'];
 
-    constructor(private promoservice: PromoService) {}
+    constructor(private promoservice: PromoService, private clientService: ClientService) {}
 
     ngOnInit(): void {
-        this.promoservice
+        this.clientService.updateClients(environment.promo).subscribe(resp => {
+            this.promoservice
             .getResultadoByPromoId(environment.promo)
             .subscribe((response) => (this.promo = response));
+        });
     }
 
     public generate(): void {
         this.promoservice
+        .getResultadoByPromoId(environment.promo)
+        .subscribe((response) => {
+            if (response && response.length > 0 ) {
+               alert('ya hay datos guardados, estos solo modificaran si actualiza y acepta la condicion de actualizar');
+            }
+
+            this.promoservice
             .getCalcPromotion(environment.promo)
-            .subscribe((response) => (this.promo = response));
+            .subscribe((response2) => (this.promo = response2));
+        });
+
     }
 
     public guardar(): void {
+        // let calc = true;
         this.promoservice
-            .setResultadoByPromoId(environment.promo, this.promo)
-            .subscribe();
+        .getResultadoByPromoId(environment.promo)
+        .subscribe((response) => {
+            if (!response || response.length === 0 || confirm('Ya hay resultado guardado, esta seguro de que quiere cambiarlo?')) {
+                this.promoservice
+                .setResultadoByPromoId(environment.promo, this.promo)
+                .subscribe();
+            } else {
+                this.promoservice
+                .getResultadoByPromoId(environment.promo)
+                .subscribe((responsae) => (this.promo = responsae));
+            }
+        });
     }
 }

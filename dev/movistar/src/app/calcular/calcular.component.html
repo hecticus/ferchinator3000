@@ -21,7 +21,7 @@
     </div>
 </div>
 
-<div class="acciones">
+<div class="acciones" *ngIf="promo.length >0">
     <button class="btn acciones_generar" (click)="generate()">Generar</button>
     <button class="btn acciones_guardar" (click)="guardar()">Guardar</button>
 </div>

@@ -1,5 +1,6 @@
 package interfaceadapters.premiorepositorydao;
 
+import applicationservices.clientservice.dto.ClientWebEntity;
 import models.Client;
 import util.AbstractDao;
 
@@ -16,5 +17,9 @@ public class ClienteRepositoryDao extends AbstractDao<Integer, Client> {
     {
         Client cliente = find.query().where().orderBy("RAND()").setMaxRows(1).findOne();
         return cliente;
+    }
+
+    public void insert(Client client) {
+        client.insert();
     }
 }

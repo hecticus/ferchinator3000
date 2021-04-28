@@ -6,6 +6,7 @@
 GET     /promocion/:promo/calcular                 controllers.PremiacionController.index(promo:Int)
 GET     /promocion/:promo                          controllers.PremiacionController.get(promo:Int)
 POST    /promocion/:promo                          controllers.PremiacionController.update(request: Request, promo:Int)
+GET     /client/update/:promo                      controllers.ClientController.update(promo:String)
 
 # Computers list (look at the default values for pagination parameters)
 #GET     /computers                  HomeController.list(request: Request, p:Int ?= 0, s ?= "name", o ?= "asc", f ?= "")

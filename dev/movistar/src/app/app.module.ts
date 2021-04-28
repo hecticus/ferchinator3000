@@ -13,11 +13,17 @@ import { StorageGatewaySession } from 'src/adapters/storagegatewaysesion/storage
 import { LoginComponent } from './login/login.component';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { ClientGateway } from 'src/services/client/client.gateway';
+import { ClientGatewayWeb } from 'src/adapters/clientgateway/client.gateway.web';
 
 @NgModule({
     declarations: [AppComponent, ResultadoComponent, CalcularComponent, LoginComponent],
     imports: [FormsModule, BrowserModule, AppRoutingModule, HttpClientModule, RouterModule],
     providers: [
+        {
+            provide: ClientGateway,
+            useClass: forwardRef(() => ClientGatewayWeb),
+        },
         {
             provide: PromoGateway,
             useClass: forwardRef(() => PromoGatewayWeb),

@@ -75,4 +75,6 @@ public class Promocion extends BaseModel {
     public void setPremiacion(String premiacion) {
         this.premiacion = premiacion;
     }
+
+
 }
