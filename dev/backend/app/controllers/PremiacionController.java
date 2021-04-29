@@ -24,7 +24,7 @@ public class PremiacionController  extends Controller {
 
     public Result get(int promocion) {
         Promocion res = premiacionesService.getResultadoByPromoId(promocion);
-        return ok(res.getPremiacion() ==null? "{}": res.getPremiacion()).as("application/json");
+        return ok(res.getPremiacion() ==null? "[]": res.getPremiacion()).as("application/json");
     }
 
     public Result update(Http.Request request, int promocion) {
