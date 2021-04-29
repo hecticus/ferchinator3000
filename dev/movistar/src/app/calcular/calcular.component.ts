@@ -12,6 +12,7 @@ import { PromoService } from 'src/services/promocion/promo.service';
 })
 export class CalcularComponent implements OnInit {
     public promo: Resultado[] = [];
+    public ready = false;
     public cardinales = ['primer' , 'segundo', 'tercer', 'cuarto', 'quinto', 'sexto', 'septimo', 'octavo'];
 
     constructor(private promoservice: PromoService, private clientService: ClientService) {}
@@ -20,7 +21,10 @@ export class CalcularComponent implements OnInit {
         this.clientService.updateClients(environment.promo).subscribe(resp => {
             this.promoservice
             .getResultadoByPromoId(environment.promo)
-            .subscribe((response) => (this.promo = response));
+            .subscribe((response) => {
+                this.promo = response;
+                this.ready = true;
+            });
         });
     }
 
@@ -44,7 +48,7 @@ export class CalcularComponent implements OnInit {
         this.promoservice
         .getResultadoByPromoId(environment.promo)
         .subscribe((response) => {
-            if (!response || response.length === 0 || confirm('Ya hay resultado guardado, esta seguro de que quiere cambiarlo?')) {
+            if (confirm('Esta accion cambiara los resultados anteriores si estos existen, esta seguro de que quiere quiere seguir adelante?')) {
                 this.promoservice
                 .setResultadoByPromoId(environment.promo, this.promo)
                 .subscribe();

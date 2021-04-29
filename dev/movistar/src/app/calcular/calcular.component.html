@@ -21,7 +21,12 @@
     </div>
 </div>
 
-<div class="acciones" *ngIf="promo.length >0">
+<div class="acciones" *ngIf="ready">
     <button class="btn acciones_generar" (click)="generate()">Generar</button>
     <button class="btn acciones_guardar" (click)="guardar()">Guardar</button>
+</div>
+
+
+<div class="overlay" *ngIf="!ready">
+    <img class="ajax-loader" src="assets/img/loading.gif" alt="">
 </div>
