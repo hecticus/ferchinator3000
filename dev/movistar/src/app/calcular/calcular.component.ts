@@ -12,50 +12,47 @@ import { PromoService } from 'src/services/promocion/promo.service';
 })
 export class CalcularComponent implements OnInit {
     public promo: Resultado[] = [];
+    public promoEnded = false;
     public ready = false;
-    public cardinales = ['primer' , 'segundo', 'tercer', 'cuarto', 'quinto', 'sexto', 'septimo', 'octavo'];
+    public cardinales = ['primer', 'segundo', 'tercer', 'cuarto', 'quinto', 'sexto', 'septimo', 'octavo'];
 
     constructor(private promoservice: PromoService, private clientService: ClientService) {}
 
     ngOnInit(): void {
-        this.clientService.updateClients(environment.promo).subscribe(resp => {
-            this.promoservice
-            .getResultadoByPromoId(environment.promo)
-            .subscribe((response) => {
+        this.clientService.updateClients(environment.promo).subscribe((resp) => {
+            this.promoservice.getResultadoByPromoId(environment.promo).subscribe((response) => {
                 this.promo = response;
                 this.ready = true;
+                if (this.promo && this.promo.length > 0) {
+                    this.promoEnded = true;
+                }
             });
         });
     }
 
     public generate(): void {
-        this.promoservice
-        .getResultadoByPromoId(environment.promo)
-        .subscribe((response) => {
-            if (response && response.length > 0 ) {
-               alert('ya hay datos guardados, estos solo modificaran si actualiza y acepta la condicion de actualizar');
+        this.promoservice.getResultadoByPromoId(environment.promo).subscribe((response) => {
+            if (response && response.length > 0) {
+                alert('ya hay datos guardados, estos solo modificaran si actualiza y acepta la condicion de actualizar');
             }
 
-            this.promoservice
-            .getCalcPromotion(environment.promo)
-            .subscribe((response2) => (this.promo = response2));
+            this.promoservice.getCalcPromotion(environment.promo).subscribe((response2) => (this.promo = response2));
         });
-
     }
 
     public guardar(): void {
         // let calc = true;
-        this.promoservice
-        .getResultadoByPromoId(environment.promo)
-        .subscribe((response) => {
-            if (confirm('Esta accion cambiara los resultados anteriores si estos existen, esta seguro de que quiere quiere seguir adelante?')) {
-                this.promoservice
-                .setResultadoByPromoId(environment.promo, this.promo)
-                .subscribe();
+        this.promoservice.getResultadoByPromoId(environment.promo).subscribe((response) => {
+            if (confirm('Esta accion no puede ser modificado, esta seguro de que quiere quiere seguir adelante?')) {
+                this.promoservice.setResultadoByPromoId(environment.promo, this.promo).subscribe();
+                this.promoEnded = true;
             } else {
-                this.promoservice
-                .getResultadoByPromoId(environment.promo)
-                .subscribe((responsae) => (this.promo = responsae));
+                this.promoservice.getResultadoByPromoId(environment.promo).subscribe((responsae) => {
+                    this.promo = responsae;
+                    if (this.promo && this.promo.length > 0) {
+                        this.promoEnded = true;
+                    }
+                });
             }
         });
     }
