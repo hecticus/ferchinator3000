@@ -43,7 +43,7 @@ export class CalcularComponent implements OnInit {
     public guardar(): void {
         // let calc = true;
         this.promoservice.getResultadoByPromoId(environment.promo).subscribe((response) => {
-            if (confirm('Esta accion no puede ser modificado, esta seguro de que quiere quiere seguir adelante?')) {
+            if (confirm('Esta accion no puede ser modificada, esta seguro de que quiere seguir adelante?')) {
                 this.promoservice.setResultadoByPromoId(environment.promo, this.promo).subscribe();
                 this.promoEnded = true;
             } else {
