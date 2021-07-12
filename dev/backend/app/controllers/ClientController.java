@@ -17,7 +17,7 @@ public class ClientController extends Controller {
     @Inject
     private ClientService clientService;
 
-    public Result update(String promoId) {
+    public Result update(String promoId) throws Exception {
         ClientList res = clientService.GetExternalClients(promoId);
         return ok().as("application/json");
     }
