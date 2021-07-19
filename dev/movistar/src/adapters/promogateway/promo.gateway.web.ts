@@ -21,12 +21,3 @@ export abstract class PromoGatewayWeb implements PromoGateway {
         return this.http.post<Resultado[]>(`${SERVER_URL}/promocion/${promoId}`, resultado);
     }
 }
-
-// this.http
-//     .get<NoticiasRemotoEntity>(`${SERVER_URL}${this.serviceRoute}/hoy`)
-//     .pipe(map((result) => result.noticias.map(this.mapper.mapFrom)))
-//     .subscribe((noticias) => {
-//         this.noticias = noticias.reverse();
-//         observer.next(noticias);
-//         observer.complete();
-//     }, observer.error.bind(observer));

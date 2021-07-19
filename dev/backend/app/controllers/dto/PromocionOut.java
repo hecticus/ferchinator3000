@@ -1,37 +1,22 @@
-package models;
+package controllers.dto;
 
 import com.google.gson.annotations.Expose;
+import models.PromoContainer;
+import models.Promocion;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import java.util.ArrayList;
+import java.util.List;
 
-@Entity
-public class Promocion extends BaseModel {
-    @Expose
-    @Column()
+public class PromocionOut {
     private String nombre;
-    @Expose
-    @Column()
     private String fechaInicio;
-    @Expose
-    @Column()
     private String fechaFin;
-    @Expose
-    @Column()
     private int activa;
-    @Expose
-    @Column()
     private String operadoraId;
-    @Expose
-    @Column()
     private String businessID;
-    @Expose
-    @Column()
     private String premiacion;
-    @ManyToOne(fetch= FetchType.EAGER)
-    protected PromoContainer promoContainer;
 
     public String getNombre() {
         return nombre;
@@ -87,13 +72,5 @@ public class Promocion extends BaseModel {
 
     public void setPremiacion(String premiacion) {
         this.premiacion = premiacion;
-    }
-
-    public PromoContainer getPromoContainer() {
-        return promoContainer;
-    }
-
-    public void setPromoContainer(PromoContainer promoContainer) {
-        this.promoContainer = promoContainer;
     }
 }

@@ -1,5 +1,18 @@
 $base-color: #3d4e6a;
 
+.conti {
+    max-height: 70vh;
+    overflow: hidden auto;
+    padding: 64px;
+}
+
+.titulo {
+    color: white;
+    font-size: 45px;
+    padding-bottom: 16px;
+    margin-top: 64px;
+}
+
 .premio {
     background-color: white;
     border-radius: 8px;
@@ -35,7 +48,6 @@ $base-color: #3d4e6a;
 }
 
 .acciones {
-
     display: flex;
     justify-content: space-evenly;
 

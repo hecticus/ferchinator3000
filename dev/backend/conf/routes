@@ -3,6 +3,8 @@
 # ~~~~
 
 # Default path will just redirect to the computer list
+GET     /promo-container/:promo                    controllers.PromoContainerController.get(promo:Int)
+
 GET     /promocion/:promo/calcular                 controllers.PremiacionController.index(promo:Int)
 GET     /promocion/:promo                          controllers.PremiacionController.get(promo:Int)
 POST    /promocion/:promo                          controllers.PremiacionController.update(request: Request, promo:Int)

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Resultado } from 'src/domain/resultado';
+import { PromoContainer } from 'src/domain/promocontainer';
 import { environment } from 'src/environments/environment';
-import { PromoService } from 'src/services/promocion/promo.service';
+import { PromoContainerService } from 'src/services/promocioncontainer/promocontainer.service';
 
 @Component({
     selector: 'app-resultado',
@@ -10,12 +10,12 @@ import { PromoService } from 'src/services/promocion/promo.service';
     styleUrls: ['./resultado.component.scss'],
 })
 export class ResultadoComponent implements OnInit {
-    public promo: Observable<Resultado[]> | null = null;
+    public promo: Observable<PromoContainer> | null = null;
 
-    constructor(private promoservice: PromoService) {}
+    constructor(private promoContainerService: PromoContainerService) {}
 
     ngOnInit(): void {
-        this.promo = this.promoservice.getResultadoByPromoId(
+        this.promo = this.promoContainerService.getResultadoByPromoId(
             environment.promo
         );
 

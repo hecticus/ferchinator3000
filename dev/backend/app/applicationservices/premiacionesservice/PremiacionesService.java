@@ -5,12 +5,8 @@ import applicationservices.premiacionesservice.dto.Resultado;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
-import interfaceadapters.premiorepositorydao.ClienteRepositoryDao;
-import interfaceadapters.premiorepositorydao.PremioRepositoryDao;
-import interfaceadapters.premiorepositorydao.PromoRepositoryDao;
-import models.Client;
-import models.Premio;
-import models.Promocion;
+import interfaceadapters.premiorepositorydao.*;
+import models.*;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -23,25 +19,32 @@ import java.util.List;
 @Singleton
 public class PremiacionesService {
 
+    @Inject
     private ClienteRepositoryDao clienteRepositoryDao;
+    @Inject
     private PremioRepositoryDao premioRepositoryDao;
+    @Inject
     private PromoRepositoryDao promoRepositoryDao;
+    @Inject
+    private BlacklistRepositoryDao blacklistRepositoryDao;
+    @Inject
+    private PromoContainerRepositoryDao promoContainerRepositoryDao;
+    @Inject
     private Gson gson;
 
-    @Inject
-    public PremiacionesService(ClienteRepositoryDao clienteRepositoryDao, PremioRepositoryDao premioRepositoryDao, PromoRepositoryDao promoRepositoryDao ) {
-        this.clienteRepositoryDao = clienteRepositoryDao;
-        this.premioRepositoryDao = premioRepositoryDao;
-        this.promoRepositoryDao = promoRepositoryDao;
-        gson = new Gson();
-    }
-
-    public Resultado CalcularResultado(int promocion) {
+    public Resultado CalcularResultado(int promocionId) throws Exception {
         //Obtener Listado
         List<PremioResultadoDto> seleccionados = new ArrayList<>();
-        List<Premio> premios = premioRepositoryDao.GetPremioListByPomoId(promocion);
+        List<Premio> premios = premioRepositoryDao.GetPremioListByPomoId(promocionId);
+        Promocion promocion = promoRepositoryDao.GetPromoByIdComplete(promocionId);
 
-        for (Premio premio: premios) {
+        if (promocion == null) throw new Exception("Promocion no valida");
+
+        PromoContainer promoContainer = promoContainerRepositoryDao.findById(promocion.getPromoContainer().getId());
+
+        List<Blacklist> blacklists = blacklistRepositoryDao.getBlaclistByPromoContiner(promoContainer.getId());
+
+        for (Premio premio : premios) {
             PremioResultadoDto premioResultadoDto = new PremioResultadoDto();
             premioResultadoDto.premio = premio;
             premioResultadoDto.seleccionados = new ArrayList<>();
@@ -52,23 +55,23 @@ public class PremiacionesService {
         int iteration = 9999;
         while (ready == false) {
             ready = true;
-            for (PremioResultadoDto seleccionado: seleccionados) {
-                if(seleccionado.seleccionados.size()< (seleccionado.premio.getSuplente() + 1)) {
+            for (PremioResultadoDto seleccionado : seleccionados) {
+                if (seleccionado.seleccionados.size() < (seleccionado.premio.getSuplente() + 1)) {
                     ready = false;
-                    Client cliente = clienteRepositoryDao.GetRandomClientByPromoId(promocion);
-                    if(clientAlreadySelected(seleccionados, cliente) == false) {
+                    Client cliente = clienteRepositoryDao.GetRandomClientByPromoId(promocionId);
+                    if (clientAlreadySelected(seleccionados, cliente) == false && isClientBlacklisted(blacklists, cliente) == false) {
                         seleccionado.seleccionados.add(cliente);
                     }
                 }
             }
             iteration--;
-            if(iteration <0){
+            if (iteration < 0) {
                 ready = true;
             }
         }
 
         Resultado resultado = new Resultado();
-        resultado.promoId = promocion;
+        resultado.promoId = promocionId;
 
         DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHMMSS");
         Date date = new Date();
@@ -79,21 +82,38 @@ public class PremiacionesService {
         return resultado;
     }
 
-    public Promocion getResultadoByPromoId(int promoId){
+    public Promocion getResultadoByPromoId(int promoId) {
         return promoRepositoryDao.findById(promoId);
     }
 
-    public Promocion crearPremiacionEnPromo(int promoId, String resultado){
+    public Promocion crearPremiacionEnPromo(int promoId, String resultado) {
         Promocion res = promoRepositoryDao.findById(promoId);
+
         res.setPremiacion(resultado);
         res.update();
+
+        PremioResultadoDto[] premioResultadoDtoList = gson.fromJson(resultado, PremioResultadoDto[].class);
+
+        for (PremioResultadoDto premioResultadoDto : premioResultadoDtoList) {
+            for (Client client : premioResultadoDto.seleccionados) {
+                blacklistRepositoryDao.addToBlacklist(res.getPromoContainer().getId(), client);
+            }
+        }
         return res;
     }
-    
-    private boolean clientAlreadySelected(List<PremioResultadoDto> seleccionados, Client actual){
-        for (PremioResultadoDto resultado: seleccionados) {
-            for (Client seleccionado: resultado.seleccionados) {
-                if(seleccionado.getMsisdn().equals(actual.getMsisdn()))
+
+    private boolean isClientBlacklisted(List<Blacklist> blacklistlists, Client actual) {
+        for (Blacklist blacklist : blacklistlists) {
+            if (blacklist.getMsisdn().equals(actual.getMsisdn()))
+                return true;
+        }
+        return false;
+    }
+
+    private boolean clientAlreadySelected(List<PremioResultadoDto> seleccionados, Client actual) {
+        for (PremioResultadoDto resultado : seleccionados) {
+            for (Client seleccionado : resultado.seleccionados) {
+                if (seleccionado != null && seleccionado.getMsisdn().equals(actual.getMsisdn()))
                     return true;
             }
         }

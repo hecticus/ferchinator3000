@@ -2,10 +2,10 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-export const SERVER_URL = 'https://backend.maxgame.club';
+export const SERVER_URL = 'http://localhost:9000';
 
 export const environment = {
-  URL: 'https://backend.maxgame.club',
+  URL: 'http://localhost:9000',
   production: false,
   promo: 1
 };

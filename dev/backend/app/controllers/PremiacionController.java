@@ -17,7 +17,7 @@ public class PremiacionController  extends Controller {
     @Inject
     private PremiacionesService premiacionesService;
 
-    public Result index(int promocion) {
+    public Result index(int promocion) throws Exception {
         Resultado res = premiacionesService.CalcularResultado(promocion);
         return ok(res.resultado).as("application/json");
     }
