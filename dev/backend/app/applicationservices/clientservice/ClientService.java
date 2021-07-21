@@ -5,9 +5,11 @@ import applicationservices.clientservice.dto.ClientWebEntity;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.gson.Gson;
 import interfaceadapters.premiorepositorydao.ConfiguracionRepositoryDao;
+import interfaceadapters.premiorepositorydao.PromoRepositoryDao;
 import io.ebean.Ebean;
 import io.ebean.SqlUpdate;
 import models.Client;
+import models.Promocion;
 import play.libs.Json;
 import play.libs.ws.WSClient;
 import play.libs.ws.WSResponse;
@@ -19,21 +21,22 @@ import java.util.concurrent.CompletionStage;
 @Singleton
 public class ClientService {
 
-    private final WSClient ws;
-    private ConfiguracionRepositoryDao configuracionRepositoryDao;
-    private final String url = "http://api.hecticus.com/ferchinator2/6/9/10/";
-    Gson gson = new Gson();
-
     @Inject
-    public ClientService(WSClient ws, ConfiguracionRepositoryDao configuracionRepositoryDao) {
-        this.configuracionRepositoryDao = configuracionRepositoryDao;
-        this.ws = ws;
-    }
+    private WSClient ws;
+    @Inject
+    private ConfiguracionRepositoryDao configuracionRepositoryDao;
+    @Inject
+    private PromoRepositoryDao promoRepositoryDao;
+    private final String url = "http://api.hecticus.com/ferchinator2/6/9/10/";
+    @Inject
+    Gson gson = new Gson();
 
     public ClientList GetExternalClients(String promoId) throws Exception {
 
-        String fechaIni = configuracionRepositoryDao.obtenerPorLlave("fecha_ini");
-        String fechaFin = configuracionRepositoryDao.obtenerPorLlave("fecha_fin");
+        Promocion promocion = promoRepositoryDao.findById(Integer.parseInt(promoId));
+
+        String fechaIni = promocion.getFechaInicio();
+        String fechaFin = promocion.getFechaFin();
 
         CompletionStage<JsonNode> jsonPromise2 = ws.url(url + fechaIni + "/" + fechaFin).get()
                 .thenApply(WSResponse::asJson);
