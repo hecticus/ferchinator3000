@@ -16,7 +16,7 @@ export class ResultadoComponent implements OnInit {
 
     ngOnInit(): void {
         this.promo = this.promoContainerService.getResultadoByPromoId(
-            environment.promo
+            environment.contenedor
         );
 
         this.promo.subscribe();
