@@ -8,7 +8,7 @@ export const environment = {
   URL: 'https://backend.maxgame.club',
   production: false,
   promo: 2,
-  contenedor: 1
+  contenedor: 2
 };
 
 /*
