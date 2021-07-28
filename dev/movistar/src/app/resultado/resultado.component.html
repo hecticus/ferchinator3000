@@ -1,7 +1,7 @@
 <div class="row" class="conti" *ngIf="promo| async">
     <div class="row" *ngFor="let promos of (promo | async)?.promociones; let i = index">
         <div class="col-12 text-center text-uppercase">
-            <p class="titulo">{{promos.nombre}}</p>
+            <p class="titulo">PROMOCIÓN ¡{{promos.nombre}}!</p>
         </div>
         <div class="" [ngClass]="(i==0)?'col-12 col-md-6':'col-12 col-md-6'" *ngFor="let item of promos.resultados; let i = index">
             <div class="premio">
