@@ -1,0 +1,14 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <h1 class="h3 mb-3 font-weight-normal" style="color:white; text-align:center;">Acceso Ferchinator 3000</h1>
+            <label for="inputEmail" class="sr-only">Usuario</label>
+            <input [(ngModel)]="user"  type="email" id="inputEmail" class="form-control spacer" placeholder="usuario" required="required" autofocus="autofocus"/>
+            <label for="inputPassword" class="sr-only">Contraseña</label>
+            <input [(ngModel)]="pass"  type="password" id="inputPassword" class="form-control spacer" placeholder="Contraseña" required="required"/>
+            <label *ngIf="error" style="color:red" class="">Error, usuario o contraseña inválido. Intente nuevamente.</label>
+            
+            <button class="btn btn-lg boton btn-block" (click)="onLogin()" type="submit">Ingresar</button>
+        </div>
+    </div>
+</div>

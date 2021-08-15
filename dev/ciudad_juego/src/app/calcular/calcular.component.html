@@ -1,0 +1,32 @@
+<div class="row" *ngIf="promo">
+    <div class="" [ngClass]="(i==0)?'col-12 col-md-6':'col-12 col-md-6'" *ngFor="let item of promo; let i = index">
+        <div class="premio">
+            <div class="premio__titulo">
+                {{item.premio.nombre }}
+            </div>
+            <div class="premio__contenedor">
+                <span *ngFor="let seleccionado of item.seleccionados; let i = index">
+                    <p class="premio__contenedor_premio" *ngIf="i == 0">
+                        GANADOR:
+                        {{seleccionado.msisdn }}
+                    </p>
+                    <p class="premio__contenedor_suplente" *ngIf="i != 0">
+                        SUPLENTE
+                        {{i}}:
+                        {{seleccionado.msisdn }}
+                    </p>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="acciones" *ngIf="!promoEnded && ready">
+    <button class="btn acciones_generar" (click)="generate()">Generar</button>
+    <button class="btn acciones_guardar" (click)="guardar()">Guardar</button>
+</div>
+
+
+<div class="overlay" *ngIf="!ready">
+    <img class="ajax-loader" src="assets/img/loading.gif" alt="">
+</div>

@@ -1,0 +1,27 @@
+<div class="row" class="conti" *ngIf="promo| async">
+    <div class="row" *ngFor="let promos of (promo | async)?.promociones; let i = index">
+        <div class="col-12 text-center text-uppercase">
+            <p class="titulo">PROMOCIÓN ¡{{promos.nombre}}!</p>
+        </div>
+        <div class="" [ngClass]="(i==0)?'col-12 col-md-6':'col-12 col-md-6'" *ngFor="let item of promos.resultados; let i = index">
+            <div class="premio">
+                <div class="premio__titulo">
+                    {{item.premio.nombre }}
+                </div>
+                <div class="premio__contenedor">
+                    <span *ngFor="let seleccionado of item.seleccionados; let i = index">
+                        <p class="premio__contenedor_premio" *ngIf="i == 0">
+                            GANADOR:
+                            {{seleccionado.msisdn }}
+                        </p>
+                        <p class="premio__contenedor_suplente" *ngIf="i != 0">
+                            SUPLENTE
+                            {{i}}:
+                            {{seleccionado.msisdn }}
+                        </p>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
