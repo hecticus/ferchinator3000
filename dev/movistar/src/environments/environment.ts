@@ -7,7 +7,7 @@ export const SERVER_URL = 'https://backend.maxgame.club';
 export const environment = {
   URL: 'https://backend.maxgame.club',
   production: false,
-  promo: 2,
+  promo: 3,
   contenedor: 2
 };
 
