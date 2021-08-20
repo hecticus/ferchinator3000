@@ -38,7 +38,7 @@ public class ClientService {
         String fechaIni = promocion.getFechaInicio();
         String fechaFin = promocion.getFechaFin();
 
-        CompletionStage<JsonNode> jsonPromise2 = ws.url(url+ promocion.getOperadoraId() + "/10/"  + fechaIni + "/" + fechaFin).get()
+        CompletionStage<JsonNode> jsonPromise2 = ws.url(url + promocion.getOperadoraId() + "/" + promocion.getBusinessID() + "/" + fechaIni + "/" + fechaFin).get()
                 .thenApply(WSResponse::asJson);
         JsonNode jsonr = Json.newObject();
         ClientList list = null;
