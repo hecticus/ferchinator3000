@@ -27,7 +27,7 @@ public class ClientService {
     private ConfiguracionRepositoryDao configuracionRepositoryDao;
     @Inject
     private PromoRepositoryDao promoRepositoryDao;
-    private final String url = "http://api.hecticus.com/ferchinator2/6/9/10/";
+    private final String url = "http://api.hecticus.com/ferchinator2/6/";
     @Inject
     Gson gson = new Gson();
 
@@ -38,7 +38,7 @@ public class ClientService {
         String fechaIni = promocion.getFechaInicio();
         String fechaFin = promocion.getFechaFin();
 
-        CompletionStage<JsonNode> jsonPromise2 = ws.url(url + fechaIni + "/" + fechaFin).get()
+        CompletionStage<JsonNode> jsonPromise2 = ws.url(url+ promocion.getOperadoraId() + "/10/"  + fechaIni + "/" + fechaFin).get()
                 .thenApply(WSResponse::asJson);
         JsonNode jsonr = Json.newObject();
         ClientList list = null;
